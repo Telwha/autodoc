@@ -42,6 +42,46 @@ export const createCodeQuestions = (
   `;
 };
 
+export const mermaidFolderSummaryPrompt = (
+  folderPath: string,
+  projectName: string,
+  files: FileSummary[],
+  folders: FolderSummary[],
+  contentType: string,
+  folderPrompt: string,
+): string => {
+  return `
+    You are acting as a ${contentType} documentation expert for a project called ${projectName}.
+    You are currently documenting the folder located at \`${folderPath}\`. 
+    
+    Below is a list of the files in this folder and a mermaid markdown code of the contents of each file:
+
+    ${files.map((file) => {
+      return `
+        Name: ${file.fileName}
+        Summary: ${file.summary}    
+
+      `;
+    })}
+
+    And here is a list of the subfolders in this folder and a mermaid markdown code of the contents of each subfolder:
+
+    ${folders.map((folder) => {
+      return `
+        Name: ${folder.folderName}
+        Summary: ${folder.summary}    
+
+      `;
+    })}
+
+    ${folderPrompt}
+    Do not say "this file is a part of the ${projectName} project".
+    Do not just list the files and folders.
+
+    Response:
+  `;
+};
+
 export const folderSummaryPrompt = (
   folderPath: string,
   projectName: string,

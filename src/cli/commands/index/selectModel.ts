@@ -46,7 +46,7 @@ export const selectModel = (
         return null;
       }
     } else {
-      return models[LLMModels.GPT3];
+      return models[LLMModels.GPT4turbo];
     }
   }
 

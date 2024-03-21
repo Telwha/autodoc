@@ -28,9 +28,15 @@ export type FileSummary = {
   fileName: string;
   filePath: string;
   url: string;
-  mermaid: string;
   summary: string;
   questions?: string;
+  checksum: string;
+};
+
+export type FileSummaryMermaid = {
+  fileName: string;
+  filePath: string;
+  mermaidSummary: string;
   checksum: string;
 };
 
@@ -40,6 +46,7 @@ export type ProcessFileParams = {
   projectName: string;
   contentType: string;
   filePrompt: string;
+  filePromptMermaid: string;
   targetAudience: string;
   linkHosted: boolean;
 };
@@ -50,11 +57,20 @@ export type FolderSummary = {
   folderName: string;
   folderPath: string;
   url: string;
-  mermaid: string;
   files: FileSummary[];
   folders: FolderSummary[];
   summary: string;
   questions: string;
+  checksum: string;
+};
+
+export type FolderSummaryMermaid = {
+  folderName: string;
+  folderPath: string;
+  url: string;
+  mermaidSummary: string;
+  files: FileSummary[];
+  folders: FolderSummary[];
   checksum: string;
 };
 
@@ -65,6 +81,7 @@ export type ProcessFolderParams = {
   projectName: string;
   contentType: string;
   folderPrompt: string;
+  folderPromptMermaid: string;
   targetAudience: string;
   linkHosted: boolean;
   shouldIgnore: (fileName: string) => boolean;
@@ -78,6 +95,8 @@ export type TraverseFileSystemParams = {
   processFile?: ProcessFile;
   processFolder?: ProcessFolder;
   ignore: string[];
+  filePromptMermaid: string;
+  folderPromptMermaid: string;
   filePrompt: string;
   folderPrompt: string;
   contentType: string;
@@ -89,6 +108,7 @@ export enum LLMModels {
   GPT3 = 'gpt-3.5-turbo',
   GPT4 = 'gpt-4',
   GPT432k = 'gpt-4-32k',
+  GPT4turbo = 'gpt-4-turbo-preview'
 }
 
 export type LLMModelDetails = {

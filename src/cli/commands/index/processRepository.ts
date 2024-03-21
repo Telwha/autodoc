@@ -8,11 +8,14 @@ import {
   createCodeFileSummary,
   createCodeQuestions,
   folderSummaryPrompt,
+  mermaidFolderSummaryPrompt,
 } from './prompts.js';
 import {
   AutodocRepoConfig,
   FileSummary,
   FolderSummary,
+  FolderSummaryMermaid,
+  FileSummaryMermaid,
   LLMModelDetails,
   LLMModels,
   ProcessFile,
@@ -43,6 +46,8 @@ export const processRepository = async (
     maxConcurrentCalls,
     addQuestions,
     ignore,
+    filePromptMermaid,
+    folderPromptMermaid,
     filePrompt,
     folderPrompt,
     contentType,
@@ -68,6 +73,7 @@ export const processRepository = async (
     filePath,
     projectName,
     contentType,
+    filePromptMermaid,
     filePrompt,
     targetAudience,
     linkHosted,
@@ -93,8 +99,16 @@ export const processRepository = async (
     }
 
     const markdownFilePath = path.join(outputRoot, filePath);
+    const mermaidFilePath = markdownFilePath.replace('markdown', 'mermaid-json');
     const url = githubFileUrl(repositoryUrl, inputRoot, filePath, linkHosted);
 
+    const mermaidFileSummaryPrompt = createCodeFileSummary(
+      projectName,
+      projectName,
+      content,
+      contentType,
+      filePromptMermaid,
+    );
     const summaryPrompt = createCodeFileSummary(
       projectName,
       projectName,
@@ -123,6 +137,7 @@ export const processRepository = async (
 
     const encoding = encoding_for_model(model.name);
     const summaryLength = encoding.encode(summaryPrompt).length;
+    const mermaidSummaryLength = encoding.encode(mermaidFileSummaryPrompt).length;
     const questionLength = encoding.encode(questionsPrompt).length;
 
     try {
@@ -144,6 +159,19 @@ export const processRepository = async (
           checksum: newChecksum,
         };
 
+        const mresponse = await Promise.all(
+          [mermaidFileSummaryPrompt].map(async (prompt) => callLLM(prompt, model.llm)),
+        );
+        const mermaidFile: FileSummaryMermaid = {
+          fileName,
+          filePath,
+          mermaidSummary: mresponse[0],
+          checksum: newChecksum,
+        }
+
+        const mermaidOutPath = getFileName(markdownFilePath, '.', '.json');
+        const mcontent = mermaidFile.mermaidSummary.length > 0 ? JSON.stringify(mermaidFile, null, 2) : '';
+
         const outputPath = getFileName(markdownFilePath, '.', '.json');
         const content =
           file.summary.length > 0 ? JSON.stringify(file, null, 2) : '';
@@ -161,6 +189,16 @@ export const processRepository = async (
           return;
         }
 
+        try {
+          await fs.mkdir(mermaidFilePath.replace(fileName, ''), {
+            recursive: true,
+          });
+          await fs.writeFile(mermaidOutPath, mcontent, 'utf-8');
+        } catch (error) {
+          console.error(error);
+          return;
+        }
+
         // console.log(`File: ${fileName} => ${outputPath}`);
       }
 
@@ -168,9 +206,10 @@ export const processRepository = async (
        * Track usage for end of run summary
        */
       model.inputTokens += summaryLength;
+      model.inputTokens += mermaidSummaryLength;
       if (addQuestions) model.inputTokens += questionLength;
       model.total++;
-      model.outputTokens += 1000;
+      model.outputTokens += 2000;
       model.succeeded++;
     } catch (e) {
       console.log(e);
@@ -185,6 +224,7 @@ export const processRepository = async (
     projectName,
     contentType,
     folderPrompt,
+    folderPromptMermaid,
     shouldIgnore,
     linkHosted,
   }): Promise<void> => {
@@ -274,14 +314,23 @@ export const processRepository = async (
         contentType,
         folderPrompt,
       );
+      const mermaidSummaryPrompt = mermaidFolderSummaryPrompt(
+        folderPath,
+        projectName,
+        files,
+        folders,
+        contentType,
+        folderPromptMermaid,
+      );
 
-      const model = selectModel([summaryPrompt], llms, models, priority);
+      const model = selectModel([summaryPrompt, mermaidSummaryPrompt], llms, models, priority);
 
       if (!isModel(model)) {
         // console.log(`Skipped ${filePath} | Length ${max}`);
         return;
       }
 
+      const mermaidSummary = await callLLM(mermaidSummaryPrompt, model.llm);
       const summary = await callLLM(summaryPrompt, model.llm);
 
       const folderSummary: FolderSummary = {
@@ -295,10 +344,28 @@ export const processRepository = async (
         checksum: newChecksum,
       };
 
+      const folderSummaryMermaid: FolderSummaryMermaid = {
+        folderName,
+        folderPath,
+        url,
+        files,
+        folders: folders.filter(Boolean),
+        mermaidSummary,
+        checksum: newChecksum,
+      };
+
       const outputPath = path.join(folderPath, 'summary.json');
       await fs.writeFile(
         outputPath,
         JSON.stringify(folderSummary, null, 2),
+        'utf-8',
+      );
+
+      const mermaidSPath = folderPath.replace('markdown', 'mermaid-json')
+      const outputPathMermaid = path.join(mermaidSPath, 'summary.json');
+      await fs.writeFile(
+        outputPathMermaid,
+        JSON.stringify(folderSummaryMermaid, null, 2),
         'utf-8',
       );
 
@@ -329,7 +396,9 @@ export const processRepository = async (
           return Promise.resolve();
         },
         ignore,
+        filePromptMermaid,
         filePrompt,
+        folderPromptMermaid,
         folderPrompt,
         contentType,
         targetAudience,
@@ -343,7 +412,9 @@ export const processRepository = async (
           return Promise.resolve();
         },
         ignore,
+        filePromptMermaid,
         filePrompt,
+        folderPromptMermaid,
         folderPrompt,
         contentType,
         targetAudience,
@@ -369,7 +440,9 @@ export const processRepository = async (
     projectName,
     processFile,
     ignore,
+    filePromptMermaid,
     filePrompt,
+    folderPromptMermaid,
     folderPrompt,
     contentType,
     targetAudience,
@@ -386,7 +459,9 @@ export const processRepository = async (
     projectName,
     processFolder,
     ignore,
+    filePromptMermaid,
     filePrompt,
+    folderPromptMermaid,
     folderPrompt,
     contentType,
     targetAudience,

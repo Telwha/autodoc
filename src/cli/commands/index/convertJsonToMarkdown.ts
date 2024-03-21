@@ -3,7 +3,9 @@ import path from 'path';
 import {
   AutodocRepoConfig,
   FileSummary,
+  FileSummaryMermaid,
   FolderSummary,
+  FolderSummaryMermaid,
   ProcessFile,
 } from '../../../types';
 import { traverseFileSystem } from '../../utils/traverseFileSystem.js';
@@ -14,6 +16,8 @@ export const convertJsonToMarkdown = async ({
   name: projectName,
   root: inputRoot,
   output: outputRoot,
+  filePromptMermaid: filePromptMermaid,
+  folderPromptMermaid: folderPromptMermaid,
   filePrompt: filePrompt,
   folderPrompt: folderPrompt,
   contentType: contentType,
@@ -32,6 +36,8 @@ export const convertJsonToMarkdown = async ({
       return Promise.resolve();
     },
     ignore: [],
+    filePromptMermaid,
+    folderPromptMermaid,
     filePrompt,
     folderPrompt,
     contentType,
@@ -78,10 +84,25 @@ export const convertJsonToMarkdown = async ({
       return;
     }
 
-    const { url, mermaid, summary, questions } =
+    const { url, summary, questions } =
       fileName === 'summary.json'
         ? (JSON.parse(content) as FolderSummary)
         : (JSON.parse(content) as FileSummary);
+
+    if (markdownFilePath.includes('docy')){
+      const { mermaidSummary } =
+        fileName === 'msummary.json'
+        ? (JSON.parse(content) as FolderSummaryMermaid)
+        : (JSON.parse(content) as FileSummaryMermaid)
+
+      const mermaidOut = 
+      summary.length > 0
+        ? `${mermaidSummary}`
+        : '';
+
+        const mermaidPath = getFileName(mermaidFilePath, '.', '.md');
+        await fs.writeFile(mermaidPath, mermaidOut, 'urf-8');
+    }
 
     /**
      * Only include the file if it has a summary
@@ -93,15 +114,8 @@ export const convertJsonToMarkdown = async ({
           }`
         : '';
 
-    const mermaidOut = 
-      summary.length > 0
-        ? `${mermaid}`
-        : '';
-      
-    const mermaidPath = getFileName(mermaidFilePath, '.', '.md');
     const outputPath = getFileName(markdownFilePath, '.', '.md');
-    await fs.writeFile(outputPath, markdown, 'utf-8');
-    await fs.writeFile(mermaidPath, mermaidOut, 'urf-8');
+    await fs.writeFile(outputPath, markdown, 'utf-8'); 
   };
 
   updateSpinnerText(`Creating ${files} markdown files...`);
@@ -110,6 +124,8 @@ export const convertJsonToMarkdown = async ({
     projectName,
     processFile,
     ignore: [],
+    filePromptMermaid,
+    folderPromptMermaid,
     filePrompt,
     folderPrompt,
     contentType,
