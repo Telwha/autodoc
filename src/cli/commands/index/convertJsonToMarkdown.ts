@@ -56,6 +56,7 @@ export const convertJsonToMarkdown = async ({
       .join(outputRoot, filePath)
       .replace(inputRoot, '');
 
+    const mermaidFilePath = markdownFilePath.replace('markdown', 'mermaid')
     /**
      * Create the output directory if it doesn't exist
      */
@@ -68,7 +69,16 @@ export const convertJsonToMarkdown = async ({
       return;
     }
 
-    const { url, summary, questions } =
+    try {
+      await fs.mkdir(mermaidFilePath.replace(fileName, ''), {
+        recursive: true,
+      });
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+
+    const { url, mermaid, summary, questions } =
       fileName === 'summary.json'
         ? (JSON.parse(content) as FolderSummary)
         : (JSON.parse(content) as FileSummary);
@@ -83,8 +93,15 @@ export const convertJsonToMarkdown = async ({
           }`
         : '';
 
+    const mermaidOut = 
+      summary.length > 0
+        ? `${mermaid}`
+        : '';
+      
+    const mermaidPath = getFileName(mermaidFilePath, '.', '.md');
     const outputPath = getFileName(markdownFilePath, '.', '.md');
     await fs.writeFile(outputPath, markdown, 'utf-8');
+    await fs.writeFile(mermaidPath, mermaidOut, 'urf-8');
   };
 
   updateSpinnerText(`Creating ${files} markdown files...`);

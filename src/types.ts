@@ -26,6 +26,7 @@ export type FileSummary = {
   fileName: string;
   filePath: string;
   url: string;
+  mermaid: string;
   summary: string;
   questions?: string;
   checksum: string;
@@ -47,6 +48,7 @@ export type FolderSummary = {
   folderName: string;
   folderPath: string;
   url: string;
+  mermaid: string;
   files: FileSummary[];
   folders: FolderSummary[];
   summary: string;
