@@ -82,7 +82,7 @@ export const user = async (
 
   console.log(
     chalk.green(
-      'Autodoc user configuration saved. Run `doc q` to start querying.',
+      'Docy user configuration saved. Run `doc q` to start querying.',
     ),
   );
 };

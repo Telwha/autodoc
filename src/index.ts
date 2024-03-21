@@ -14,18 +14,18 @@ import { user } from './cli/commands/user/index.js';
 import { userConfigFilePath } from './const.js';
 
 const program = new Command();
-program.description('Autodoc CLI Tool');
+program.description('Docy CLI Tool');
 program.version('0.0.9');
 
 program
   .command('init')
   .description(
-    'Initialize repository by creating a `autodoc.config.json` file in the current directory.',
+    'Initialize repository by creating a `docy.config.json` file in the current directory.',
   )
   .action(async () => {
     try {
       const config: AutodocRepoConfig = JSON.parse(
-        await fs.readFile('./autodoc.config.json', 'utf8'),
+        await fs.readFile('./docy.config.json', 'utf8'),
       );
       init(config);
     } catch (e) {
@@ -39,12 +39,12 @@ program
   .action(async () => {
     try {
       const config: AutodocRepoConfig = JSON.parse(
-        await fs.readFile('./autodoc.config.json', 'utf8'),
+        await fs.readFile('./docy.config.json', 'utf8'),
       );
       estimate(config);
     } catch (e) {
       console.error(
-        'Failed to find `autodoc.config.json` file. Did you run `doc init`?',
+        'Failed to find `docy.config.json` file. Did you run `doc init`?',
       );
       console.error(e);
       process.exit(1);
@@ -59,7 +59,7 @@ program
   .action(async () => {
     try {
       const config: AutodocRepoConfig = JSON.parse(
-        await fs.readFile('./autodoc.config.json', 'utf8'),
+        await fs.readFile('./docy.config.json', 'utf8'),
       );
 
       await estimate(config);
@@ -84,7 +84,7 @@ program
       }
     } catch (e) {
       console.error(
-        'Failed to find `autodoc.config.json` file. Did you run `doc init`?',
+        'Failed to find `docy.config.json` file. Did you run `doc init`?',
       );
       console.error(e);
       process.exit(1);
@@ -93,7 +93,7 @@ program
 
 program
   .command('user')
-  .description('Set the Autodoc user config')
+  .description('Set the Docy user config')
   .action(async () => {
     try {
       const config: AutodocUserConfig = JSON.parse(
@@ -107,16 +107,16 @@ program
 
 program
   .command('q')
-  .description('Query an Autodoc index')
+  .description('Query an Docy index')
   .action(async () => {
     let repoConfig: AutodocRepoConfig;
     try {
       repoConfig = JSON.parse(
-        await fs.readFile('./autodoc.config.json', 'utf8'),
+        await fs.readFile('./docy.config.json', 'utf8'),
       );
     } catch (e) {
       console.error(
-        'Failed to find `autodoc.config.json` file. Did you run `doc init`?',
+        'Failed to find `docy.config.json` file. Did you run `doc init`?',
       );
       console.error(e);
       process.exit(1);

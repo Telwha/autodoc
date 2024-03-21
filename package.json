@@ -1,7 +1,7 @@
 {
-  "name": "@context-labs/autodoc",
-  "version": "0.0.9",
-  "description": "autodoc",
+  "name": "docy",
+  "version": "0.0.1",
+  "description": "docy",
   "type": "module",
   "main": "./dist/index.js",
   "exports": {

@@ -14,6 +14,8 @@ export type AutodocRepoConfig = {
   maxConcurrentCalls: number;
   addQuestions: boolean;
   ignore: string[];
+  filePromptMermaid: string;
+  folderPromptMermaid: string;
   filePrompt: string;
   folderPrompt: string;
   chatPrompt: string;
