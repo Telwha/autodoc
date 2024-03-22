@@ -25,6 +25,7 @@ export const index = async ({
   linkHosted,
 }: AutodocRepoConfig) => {
   const json = path.join(output, 'docs', 'json/');
+  const mermaidJson = path.join(output, 'docs', 'mermaid-json/');
   const markdown = path.join(output, 'docs', 'markdown/');
   const data = path.join(output, 'docs', 'data/');
 
@@ -64,6 +65,31 @@ export const index = async ({
     name,
     repositoryUrl,
     root: json,
+    output: markdown,
+    llms,
+    priority,
+    maxConcurrentCalls,
+    addQuestions,
+    ignore,
+    filePromptMermaid,
+    folderPromptMermaid,
+    filePrompt,
+    folderPrompt,
+    chatPrompt,
+    contentType,
+    targetAudience,
+    linkHosted,
+  });
+  spinnerSuccess();
+
+  /**
+   * Create mermaid files from JSON files
+   */
+  updateSpinnerText('Creating mermaid files...');
+  await convertJsonToMarkdown({
+    name,
+    repositoryUrl,
+    root: mermaidJson,
     output: markdown,
     llms,
     priority,

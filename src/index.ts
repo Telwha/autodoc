@@ -15,7 +15,7 @@ import { userConfigFilePath } from './const.js';
 
 const program = new Command();
 program.description('Docy CLI Tool');
-program.version('0.0.9');
+program.version('0.0.2');
 
 program
   .command('init')
@@ -44,7 +44,7 @@ program
       estimate(config);
     } catch (e) {
       console.error(
-        'Failed to find `docy.config.json` file. Did you run `doc init`?',
+        'Failed to find `docy.config.json` file. Did you run `docy init`?',
       );
       console.error(e);
       process.exit(1);
@@ -84,7 +84,7 @@ program
       }
     } catch (e) {
       console.error(
-        'Failed to find `docy.config.json` file. Did you run `doc init`?',
+        'Failed to find `docy.config.json` file. Did you run `docy init`?',
       );
       console.error(e);
       process.exit(1);
@@ -116,7 +116,7 @@ program
       );
     } catch (e) {
       console.error(
-        'Failed to find `docy.config.json` file. Did you run `doc init`?',
+        'Failed to find `docy.config.json` file. Did you run `docy init`?',
       );
       console.error(e);
       process.exit(1);

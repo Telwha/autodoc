@@ -50,6 +50,22 @@ export const models: Record<LLMModels, LLMModelDetails> = {
     failed: 0,
     total: 0,
   },
+  [LLMModels.GPT4turbo]: {
+    name: LLMModels.GPT4turbo,
+    inputCostPer1KTokens: 0.01,
+    outputCostPer1KTokens: 0.03,
+    maxLength: 128000,
+    llm: new OpenAIChat({
+      temperature: 0.1,
+      openAIApiKey: process.env.OPENAI_API_KEY,
+      modelName: LLMModels.GPT4turbo,
+    }),
+    inputTokens: 0,
+    outputTokens: 0,
+    succeeded: 0,
+    failed: 0,
+    total: 0,
+  },
 };
 
 export const printModelDetails = (models: LLMModelDetails[]): void => {

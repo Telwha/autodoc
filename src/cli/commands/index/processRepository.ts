@@ -99,7 +99,8 @@ export const processRepository = async (
     }
 
     const markdownFilePath = path.join(outputRoot, filePath);
-    const mermaidFilePath = markdownFilePath.replace('markdown', 'mermaid-json');
+    const mermaidFilePath = markdownFilePath.replace('json', 'mermaid-json');
+    
     const url = githubFileUrl(repositoryUrl, inputRoot, filePath, linkHosted);
 
     const mermaidFileSummaryPrompt = createCodeFileSummary(
@@ -169,7 +170,7 @@ export const processRepository = async (
           checksum: newChecksum,
         }
 
-        const mermaidOutPath = getFileName(markdownFilePath, '.', '.json');
+        const mermaidOutPath = getFileName(mermaidFilePath, '.', '.json');
         const mcontent = mermaidFile.mermaidSummary.length > 0 ? JSON.stringify(mermaidFile, null, 2) : '';
 
         const outputPath = getFileName(markdownFilePath, '.', '.json');
@@ -361,7 +362,7 @@ export const processRepository = async (
         'utf-8',
       );
 
-      const mermaidSPath = folderPath.replace('markdown', 'mermaid-json')
+      const mermaidSPath = folderPath.replace('json', 'mermaid-json')
       const outputPathMermaid = path.join(mermaidSPath, 'summary.json');
       await fs.writeFile(
         outputPathMermaid,

@@ -32,13 +32,13 @@ export const makeConfigTemplate = (
       '*docy*',
     ],
     filePromptMermaid:
-      config?.filePrompt ??
+      config?.filePromptMermaid ??
       'Write a mermaid markdown code with shapes that illustrates the steps of what this code does. \n\
       Focus on the low-level purpose of the code and how it may be used in the larger project.\n\
       Output should be in markdown format.\n\
       Do not just list the methods and classes in this file.',
     folderPromptMermaid:
-      config?.folderPrompt ??
+      config?.folderPromptMermaid ??
       'Write a mermaid markdown code with shapes that illustrates the steps of what the code in this folder does\n\
       and how it might fit into the larger project or work with other parts of the project.\n\
       Do not just list the files and folders in this folder.',

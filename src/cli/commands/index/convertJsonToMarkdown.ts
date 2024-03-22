@@ -84,38 +84,40 @@ export const convertJsonToMarkdown = async ({
       return;
     }
 
-    const { url, summary, questions } =
-      fileName === 'summary.json'
-        ? (JSON.parse(content) as FolderSummary)
-        : (JSON.parse(content) as FileSummary);
-
-    if (markdownFilePath.includes('docy')){
+    if (inputRoot.includes('mermaid')){
       const { mermaidSummary } =
-        fileName === 'msummary.json'
+        fileName === 'summary.json'
         ? (JSON.parse(content) as FolderSummaryMermaid)
         : (JSON.parse(content) as FileSummaryMermaid)
 
       const mermaidOut = 
-      summary.length > 0
+      mermaidSummary.length > 0
         ? `${mermaidSummary}`
         : '';
 
         const mermaidPath = getFileName(mermaidFilePath, '.', '.md');
-        await fs.writeFile(mermaidPath, mermaidOut, 'urf-8');
-    }
-
-    /**
-     * Only include the file if it has a summary
-     */
-    const markdown =
+        await fs.writeFile(mermaidPath, mermaidOut, 'utf-8');
+    } else {
+      const { url, summary, questions } =
+      fileName === 'summary.json'
+        ? (JSON.parse(content) as FolderSummary)
+        : (JSON.parse(content) as FileSummary);
+      
+      /**
+       * Only include the file if it has a summary
+       */
+      
+      const markdown =
       summary.length > 0
         ? `[View code on GitHub](${url})\n\n${summary}\n${
             questions ? '## Questions: \n ' + questions : ''
           }`
         : '';
+  
+      const outputPath = getFileName(markdownFilePath, '.', '.md');
+      await fs.writeFile(outputPath, markdown, 'utf-8'); 
+    }
 
-    const outputPath = getFileName(markdownFilePath, '.', '.md');
-    await fs.writeFile(outputPath, markdown, 'utf-8'); 
   };
 
   updateSpinnerText(`Creating ${files} markdown files...`);
