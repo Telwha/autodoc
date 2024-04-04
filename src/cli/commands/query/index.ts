@@ -13,7 +13,7 @@ const chatHistory: [string, string][] = [];
 
 marked.setOptions({
   // Define custom renderer
-  renderer: new TerminalRenderer(),
+  renderer: new marked.Renderer(),
 });
 
 const displayWelcomeMessage = (projectName: string) => {

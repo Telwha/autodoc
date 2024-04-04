@@ -4,6 +4,8 @@ import { Md5 } from 'ts-md5';
 import { OpenAIChat } from 'langchain/llms';
 import { encoding_for_model } from '@dqbd/tiktoken';
 import { APIRateLimit } from '../../utils/APIRateLimit.js';
+import { ChatOllama } from "@langchain/community/chat_models/ollama";
+
 import {
   createCodeFileSummary,
   createCodeQuestions,
@@ -58,11 +60,16 @@ export const processRepository = async (
 ) => {
   const rateLimit = new APIRateLimit(maxConcurrentCalls);
 
+  const ollamaLlm = new ChatOllama({
+    baseUrl: "http://localhost:11434", // Default value
+    model: "wizardcoder:13b-python", // Default value
+  });
+
   const callLLM = async (
     prompt: string,
     model: OpenAIChat,
   ): Promise<string> => {
-    return rateLimit.callApi(() => model.call(prompt));
+    return (await ollamaLlm.invoke(prompt)).content as string;
   };
 
   const isModel = (model: LLMModelDetails | null): model is LLMModelDetails =>
