@@ -1,0 +1,6 @@
+{
+  "fileName": "index.ts",
+  "filePath": "commands/index/index.ts",
+  "mermaidSummary": "```markdown\n```mermaid\ngraph TD\n    A[Start] --> B{Process Repository}\n    B --> C[Create JSON Files]\n    C --> D{Convert JSON to Markdown}\n    D --> E[Create Markdown Files]\n    E --> F{Convert JSON to Mermaid}\n    F --> G[Create Mermaid Files]\n    G --> H{Create Vector Store}\n    H --> I[Create Vector Files]\n    I --> J[End]\n\n    style B fill:#f9f,stroke:#333,stroke-width:4px\n    style D fill:#f9f,stroke:#333,stroke-width:4px\n    style F fill:#f9f,stroke:#333,stroke-width:4px\n    style H fill:#f9f,stroke:#333,stroke-width:4px\n```\n```",
+  "checksum": "ce4bfe1f7f8be6f2f267b77b7580f879"
+}

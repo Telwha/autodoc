@@ -15,7 +15,7 @@ export const makeConfigTemplate = (
     llms: [LLMModels.GPT3],
     priority: Priority.PERFORMANCE,
     maxConcurrentCalls: 25,
-    addQuestions: true,
+    addQuestions: false,
     ignore: [
       '.*',
       '*package-lock.json',
@@ -30,20 +30,29 @@ export const makeConfigTemplate = (
       '*.toml',
       '*autodoc*',
       '*docy*',
+      '*requirements.txt',
     ],
+    include: [],
     filePromptMermaid:
-      config?.filePromptMermaid ??
       'Write a mermaid markdown code with shapes that illustrates the steps of what this code does. \n\
       Focus on the low-level purpose of the code and how it may be used in the larger project.\n\
+      Do not just list the methods and classes in this file. \n\
       Output should be in markdown format.\n\
-      Do not just list the methods and classes in this file.',
+      DO NOT WRITE ANY FILE SUMMARY.\n\
+      The output should only contain the mermaid markdown.\n\
+      Do not use any colours in the mermaid markdown.\n\
+      If there is a name that is containing special characters that would lead to conflicts in the mermaid representation, remove those special characters\n\
+      MAKE SURE THAT THE GENERATED MERMAID MARKDOWN IS SYNTACTICALLY CORRECT',
     folderPromptMermaid:
-      config?.folderPromptMermaid ??
       'Write a mermaid markdown code with shapes that illustrates the steps of what the code in this folder does\n\
       and how it might fit into the larger project or work with other parts of the project.\n\
-      Do not just list the files and folders in this folder.',
+      DO NOT WRITE ANY FILE SUMMARY.\n\
+      Do not just list the files and folders in this folder.\n\
+      The output should only contain the mermaid markdown.\n\
+      Do not use any colours in the mermaid markdown.\n\
+      If there is a name that is containing special characters that would lead to conflicts in the mermaid representation, remove those special characters\n\
+      MAKE SURE THAT THE GENERATED MERMAID MARKDOWN IS SYNTACTICALLY CORRECT',
     filePrompt:
-      config?.filePrompt ??
       'Write a detailed technical explanation of what this code does. \n\
       Focus on the high-level purpose of the code and how it may be used in the larger project.\n\
       Include code examples where appropriate. Keep you response between 100 and 300 words. \n\
@@ -51,7 +60,6 @@ export const makeConfigTemplate = (
       Output should be in markdown format.\n\
       Do not just list the methods and classes in this file.',
     folderPrompt:
-      config?.folderPrompt ??
       'Write a technical explanation of what the code in this folder does\n\
       and how it might fit into the larger project or work with other parts of the project.\n\
       Give examples of how this code might be used. Include code examples where appropriate.\n\
@@ -94,14 +102,21 @@ export const init = async (
       message: chalk.yellow(`Enter the name of your repository:`),
       default: config.name,
     },
+    {
+      type: 'input',
+      name: 'include',
+      message: chalk.yellow(`Do you want to run it on certain file types? Enter space separated file types, e.g., '.py', '.java' Leave blank otherwise.`),
+      default: config.include,
+    },
   ];
 
-  const { name } =
+  const { name, include } =
     await inquirer.prompt(questions);
 
   const newConfig = makeConfigTemplate({
     ...config,
     name,
+    include,
   });
 
   fs.writeFileSync(
@@ -111,6 +126,6 @@ export const init = async (
   );
 
   console.log(
-    chalk.green('Docy initialized. Run `doc index` to get started.'),
+    chalk.green('Docy initialized. Run `docy index` to get started.'),
   );
 };

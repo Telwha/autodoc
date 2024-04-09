@@ -14,6 +14,7 @@ export type AutodocRepoConfig = {
   maxConcurrentCalls: number;
   addQuestions: boolean;
   ignore: string[];
+  include: string[];
   filePromptMermaid: string;
   folderPromptMermaid: string;
   filePrompt: string;
@@ -95,6 +96,7 @@ export type TraverseFileSystemParams = {
   processFile?: ProcessFile;
   processFolder?: ProcessFolder;
   ignore: string[];
+  include: string[];
   filePromptMermaid: string;
   folderPromptMermaid: string;
   filePrompt: string;

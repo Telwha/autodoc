@@ -14,6 +14,7 @@ export const traverseFileSystem = async (
       processFile,
       processFolder,
       ignore,
+      include,
       filePromptMermaid,
       folderPromptMermaid,
       filePrompt,
@@ -31,7 +32,11 @@ export const traverseFileSystem = async (
     }
 
     const shouldIgnore = (fileName: string): boolean => {
-      return ignore.some((pattern) => minimatch(fileName, pattern));
+      if (Array.isArray(include) && include.length) {
+        return !include.some((pattern) => minimatch(fileName, pattern));
+      } else {
+        return ignore.some((pattern) => minimatch(fileName, pattern));
+      }
     };
 
     const dfs = async (currentPath: string): Promise<void> => {

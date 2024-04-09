@@ -1,0 +1,6 @@
+{
+  "fileName": "convertJsonToMarkdown.ts",
+  "filePath": "commands/index/convertJsonToMarkdown.ts",
+  "mermaidSummary": "```mermaid\ngraph TD\n    A[Start convertJsonToMarkdown] --> B{Count Files}\n    B --> C[Traverse File System]\n    C --> D[Increment File Count]\n    D --> E[Create Markdown Files]\n    E --> F{Check if Mermaid}\n    F -->|Yes| G[Parse as FolderSummaryMermaid/FileSummaryMermaid]\n    F -->|No| H[Parse as FolderSummary/FileSummary]\n    G --> I[Write Mermaid Output]\n    H --> J[Write Markdown Output]\n    I --> K[End]\n    J --> K[End]\n```",
+  "checksum": "45f4ed11721411bb00a7c81f0a224bec"
+}

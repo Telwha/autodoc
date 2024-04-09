@@ -18,6 +18,7 @@ export const estimate = async ({
   maxConcurrentCalls,
   addQuestions,
   ignore,
+  include,
   filePromptMermaid,
   folderPromptMermaid,
   filePrompt,
@@ -46,6 +47,7 @@ export const estimate = async ({
       maxConcurrentCalls,
       addQuestions,
       ignore,
+      include,
       filePromptMermaid,
       folderPromptMermaid,
       filePrompt,
@@ -68,7 +70,7 @@ export const estimate = async ({
     chalk.redBright(
       `Cost estimate to process this repository: $${total.toFixed(
         2,
-      )}\nThis is just an estimate. Actual cost may vary.\nIt recommended that you set a limit in your OpenAI account to prevent unexpected charges.`,
+      )}\nThis is just an estimate. Actual cost may vary.\nIt is recommended that you set a limit in your OpenAI account to prevent unexpected charges.`,
     ),
   );
 };

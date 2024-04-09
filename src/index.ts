@@ -15,7 +15,7 @@ import { userConfigFilePath } from './const.js';
 
 const program = new Command();
 program.description('Docy CLI Tool');
-program.version('0.0.2');
+program.version('0.0.3');
 
 program
   .command('init')

@@ -1,0 +1,6 @@
+{
+  "fileName": "traverseFileSystem.ts",
+  "filePath": "utils/traverseFileSystem.ts",
+  "mermaidSummary": "```mermaid\ngraph TD\n    A[Start: Traverse File System] --> B{Check Input Path Exists}\n    B -->|Exists| C[DFS Function]\n    B -->|Does Not Exist| D[Log Error: Path does not exist]\n\n    C --> E{Is Directory?}\n    E -->|Yes| F[Recursive DFS Call]\n    E -->|No| G{Is File?}\n    G -->|Yes| H{Is Text File?}\n    H -->|Yes| I[Process File]\n    H -->|No| J[Skip Binary File]\n    F --> K[Process Folder]\n\n    I --> L[End]\n    J --> L\n    K --> L\n```\n\nThis diagram illustrates the steps taken by the `traverseFileSystem` function within the autodoc project. It starts by checking if the provided input path exists. If it does, it proceeds with a Depth-First Search (DFS) function to traverse directories and files. For each directory, it makes a recursive call to itself, and for each file, it checks if it is a text file before processing it. Binary files are skipped, and folders are processed after their contents. The process ends after all eligible files and folders have been processed.",
+  "checksum": "3a562e03054a1de79a69ca6317f27967"
+}

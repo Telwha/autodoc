@@ -1,0 +1,6 @@
+{
+  "fileName": "index.ts",
+  "filePath": "commands/user/index.ts",
+  "mermaidSummary": "```markdown\n```mermaid\ngraph TD\n    A[Start] --> B{Check if userConfig exists}\n    B -->|Yes| C[Prompt: Overwrite existing config?]\n    C -->|No| D[Exit process]\n    C -->|Yes| E[Proceed to config questions]\n    B -->|No| F[Create config directory]\n    F --> E\n    E --> G[Ask user for LLMs access]\n    G --> H[Generate new config]\n    H --> I[Write new config to file]\n    I --> J[Show success message]\n    J --> K[End]\n```\n```",
+  "checksum": "4b8102092cf3b7055d3f95ad54a1bbe8"
+}

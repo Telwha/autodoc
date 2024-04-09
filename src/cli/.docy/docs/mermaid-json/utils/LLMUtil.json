@@ -1,0 +1,6 @@
+{
+  "fileName": "LLMUtil.ts",
+  "filePath": "utils/LLMUtil.ts",
+  "mermaidSummary": "```mermaid\ngraph TD\n    A[Start] --> B[Define Models]\n    B --> C[Initialize Models with OpenAIChat]\n    C --> D[Set Model Details]\n    D --> E[Print Model Details Function]\n    D --> F[Total Index Cost Estimate Function]\n    E --> G[Map Model Details for Output]\n    F --> H[Calculate Total Cost]\n    G --> I[Reduce to Totals]\n    H --> J[Return Total Cost]\n    I --> K[Print Model Details Table]\n    J --> L[End]\n    K --> L\n```\n",
+  "checksum": "db167e1946eae813a3d999bfe6665866"
+}

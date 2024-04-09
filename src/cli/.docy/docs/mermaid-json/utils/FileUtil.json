@@ -1,0 +1,6 @@
+{
+  "fileName": "FileUtil.ts",
+  "filePath": "utils/FileUtil.ts",
+  "mermaidSummary": "```markdown\n```mermaid\ngraph TD\n    A[Start] --> B{Is delimiter in input?}\n    B -->|Yes| C[Find last delimiter index]\n    B -->|No| D[Return input + extension]\n    C --> E[Return input up to last delimiter + extension]\n\n    F[Start githubFileUrl] --> G{Is linkHosted true?}\n    G -->|Yes| H[Return githubRoot + filePath after inputRoot]\n    G -->|No| I[Return githubRoot + /blob/master + filePath after inputRoot]\n\n    J[Start githubFolderUrl] --> K{Is linkHosted true?}\n    K -->|Yes| L[Return githubRoot + folderPath after inputRoot]\n    K -->|No| M[Return githubRoot + /tree/master + folderPath after inputRoot]\n```\n```",
+  "checksum": "5db3ef12d9029f7ea00754d8ea640d50"
+}

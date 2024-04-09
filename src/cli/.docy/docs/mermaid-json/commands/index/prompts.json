@@ -1,0 +1,6 @@
+{
+  "fileName": "prompts.ts",
+  "filePath": "commands/index/prompts.ts",
+  "mermaidSummary": "```markdown\n```mermaid\ngraph TD;\n    A[Start] --> B[Create Documentation]\n    B --> C{Content Type}\n    C -->|Code File| D[createCodeFileSummary]\n    C -->|Questions| E[createCodeQuestions]\n    C -->|Mermaid Folder| F[mermaidFolderSummaryPrompt]\n    C -->|Folder Summary| G[folderSummaryPrompt]\n    D --> H[Generate File Summary]\n    E --> I[Generate Questions for File]\n    F --> J[Generate Mermaid Summary for Folder]\n    G --> K[Generate Text Summary for Folder]\n    H --> L[End]\n    I --> L\n    J --> L\n    K --> L\n```\n```",
+  "checksum": "06ae1a801b819626b6dee2fc0cafd8b9"
+}

@@ -1,0 +1,6 @@
+{
+  "fileName": "WaitUtil.ts",
+  "filePath": "utils/WaitUtil.ts",
+  "mermaidSummary": "```markdown\n```mermaid\ngraph TD\n    A[Start] --> B{wait function}\n    B -->|waits for specified time| C[Resolve with value]\n    A --> D{forTrue function}\n    D -->|Checks condition| E{Condition true?}\n    E -->|Yes| F[Resolve with true]\n    E -->|No| G[Set interval to check again]\n    G --> H{Count >= 200?}\n    H -->|Yes| I[Reject]\n    H -->|No| E\n    C --> J[End]\n    F --> J\n    I --> J\n```\n```",
+  "checksum": "2348894465104dca73e3bc4e57a368b1"
+}

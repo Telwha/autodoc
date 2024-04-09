@@ -1,0 +1,6 @@
+{
+  "fileName": "APIRateLimit.ts",
+  "filePath": "utils/APIRateLimit.ts",
+  "mermaidSummary": "```markdown\n```mermaid\ngraph TD\n    A[Start API Call] --> B{Queue Full?}\n    B -- Yes --> C[Wait in Queue]\n    B -- No --> D[Execute API Call]\n    C --> D\n    D --> E{API Call Success?}\n    E -- Yes --> F[Resolve Promise with Result]\n    E -- No --> G[Reject Promise with Error]\n    F --> H[Decrease In-Progress Count]\n    G --> H\n    H --> I[Check and Execute Next in Queue]\n    I --> J[End of Operation]\n\n    classDef className fill:#f9f,stroke:#333,stroke-width:4px;\n    class A,B,C,D,E,F,G,H,I,J className;\n```\n```",
+  "checksum": "5b9e6aa6f66085c70a786d114b701b4d"
+}

@@ -1,0 +1,6 @@
+{
+  "fileName": "index.ts",
+  "filePath": "commands/init/index.ts",
+  "mermaidSummary": "```markdown\n```mermaid\ngraph TD;\n    A[Start] --> B{Check if config exists};\n    B -- Yes --> C[Prompt overwrite confirmation];\n    C -- No --> D[Exit];\n    C -- Yes --> E[Proceed to setup];\n    B -- No --> E;\n    E --> F[Ask for repository name];\n    F --> G[Create/Update config with new name];\n    G --> H[Write config to file];\n    H --> I[Initialization Complete];\n```\n```",
+  "checksum": "1df1cf6b182149708b48a4f022e7ce67"
+}

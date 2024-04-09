@@ -1,0 +1,6 @@
+{
+  "fileName": "spinner.ts",
+  "filePath": "spinner.ts",
+  "mermaidSummary": "```markdown\n```mermaid\ngraph TD;\n    A[Start Spinner] --> B{Is Spinner Spinning?}\n    B -->|Yes| C[Update Spinner Text]\n    B -->|No| D[Start Spinner with Message]\n    E[Stop Spinner] --> F{Is Spinner Spinning?}\n    F -->|Yes| G[Stop Spinner]\n    H[Spinner Error] --> I{Is Spinner Spinning?}\n    I -->|Yes| J[Display Error Message]\n    K[Spinner Success] --> L{Is Spinner Spinning?}\n    L -->|Yes| M[Display Success Message]\n    N[Spinner Info] --> O[Display Info Message]\n\n    classDef default fill:#f9f,stroke:#333,stroke-width:2px;\n    classDef condition fill:#bbf,stroke:#f66,stroke-width:2px,stroke-dasharray: 5, 5;\n    class B,F,I,L condition;\n```\n```",
+  "checksum": "e8e938ee7bcdf28b0303f7e396f6c6b1"
+}

@@ -36,6 +36,7 @@ export const convertJsonToMarkdown = async ({
       return Promise.resolve();
     },
     ignore: [],
+    include: [],
     filePromptMermaid,
     folderPromptMermaid,
     filePrompt,
@@ -126,6 +127,7 @@ export const convertJsonToMarkdown = async ({
     projectName,
     processFile,
     ignore: [],
+    include: [],
     filePromptMermaid,
     folderPromptMermaid,
     filePrompt,
